@@ -100,6 +100,8 @@ ai "open local ai"
 ai "open that project about voice stuff"
 ```
 
+![Opening a project example](images/Screenshot%202025-12-14%20at%2022.13.04.png)
+
 It uses fuzzy matching, so even if you're half-asleep and type `"opne ai cli"`, it'll probably still work. I've tested it at 3 AM. It works. ☕
 
 **What it does:**
@@ -117,6 +119,8 @@ ai "create a project called my-awesome-app"
 ai "start new project todo-list"
 ai "make a project called blog"
 ```
+
+![Creating a project example](images/Screenshot%202025-12-14%20at%2022.14.00.png)
 
 **What it does automatically:**
 - Creates the folder (in the right place)
@@ -168,6 +172,19 @@ ai "open local ai"                  # ✅ Finds "localai-engine" anyway
 # 3 AM: Typo? No problem
 ai "opne ai cli"                    # ✅ Still works (probably)
 ```
+
+### Screenshots in Action
+
+Here's what it actually looks like when you use it:
+
+**Opening an existing project:**
+![Terminal screenshot - Opening project](images/terminal-open-example.png)
+
+**Creating a new project:**
+![Terminal screenshot - Creating project](images/terminal-create-example.png)
+
+**Fuzzy matching in action:**
+![Terminal screenshot - Fuzzy matching](images/terminal-fuzzy-match-example.png)
 
 ## ⚙️ Configuration (If You're Fancy)
 
