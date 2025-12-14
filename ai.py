@@ -180,19 +180,63 @@ def open_in_cursor(path: Path) -> bool:
             typer.echo(f"❌ Error: Path does not exist: {path}", err=True)
             return False
         
-        subprocess.run(
-            ["cursor", str(path)],
-            check=True,
-            capture_output=True,
-            timeout=10
-        )
-        return True
-    except subprocess.CalledProcessError as e:
-        typer.echo(f"❌ Error: Failed to open Cursor (exit code {e.returncode})", err=True)
-        return False
-    except FileNotFoundError:
+        # Try different methods to open Cursor
+        import platform
+        
+        # Method 1: Try 'cursor' command (if in PATH)
+        cursor_commands = ["cursor"]
+        
+        # Method 2: Try full path to cursor command (macOS)
+        if platform.system() == "Darwin":
+            cursor_commands.append("/Applications/Cursor.app/Contents/Resources/app/bin/cursor")
+        
+        # Method 3: Try macOS 'open' command as fallback
+        use_open_command = False
+        if platform.system() == "Darwin":
+            use_open_command = True
+        
+        last_error = None
+        for cmd in cursor_commands:
+            try:
+                subprocess.run(
+                    [cmd, str(path)],
+                    check=True,
+                    capture_output=True,
+                    timeout=10
+                )
+                return True
+            except FileNotFoundError:
+                last_error = "FileNotFoundError"
+                continue
+            except subprocess.CalledProcessError as e:
+                last_error = f"Exit code {e.returncode}"
+                continue
+        
+        # Fallback to macOS 'open' command
+        if use_open_command:
+            try:
+                subprocess.run(
+                    ["open", "-a", "Cursor", str(path)],
+                    check=True,
+                    capture_output=True,
+                    timeout=10
+                )
+                return True
+            except FileNotFoundError:
+                typer.echo("❌ Error: Cursor is not installed or not found.", err=True)
+                typer.echo("   Make sure Cursor is installed in /Applications/Cursor.app", err=True)
+                return False
+            except subprocess.CalledProcessError as e:
+                typer.echo(f"❌ Error: Failed to open Cursor (exit code {e.returncode})", err=True)
+                return False
+        
+        # If we get here, all methods failed
         typer.echo("❌ Error: 'cursor' command not found. Make sure Cursor is installed.", err=True)
+        if platform.system() == "Darwin":
+            typer.echo("   You can add Cursor to PATH by running:", err=True)
+            typer.echo("   ln -s /Applications/Cursor.app/Contents/Resources/app/bin/cursor /usr/local/bin/cursor", err=True)
         return False
+        
     except subprocess.TimeoutExpired:
         typer.echo("❌ Error: Cursor command timed out", err=True)
         return False
