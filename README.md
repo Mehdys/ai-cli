@@ -178,13 +178,12 @@ ai "opne ai cli"                    # ✅ Still works (probably)
 Here's what it actually looks like when you use it:
 
 **Opening an existing project:**
-![Terminal screenshot - Opening project](images/terminal-open-example.png)
+![Terminal screenshot - Opening project](images/Screenshot%202025-12-14%20at%2022.13.04.png)
 
 **Creating a new project:**
-![Terminal screenshot - Creating project](images/terminal-create-example.png)
+![Terminal screenshot - Creating project](images/Screenshot%202025-12-14%20at%2022.14.00.png)
 
-**Fuzzy matching in action:**
-![Terminal screenshot - Fuzzy matching](images/terminal-fuzzy-match-example.png)
+> 💡 **Tip:** You can add more screenshots to the `images/` folder and reference them here. Just make sure to use URL-encoded filenames (spaces become `%20`) or rename them without spaces for easier linking.
 
 ## ⚙️ Configuration (If You're Fancy)
 
