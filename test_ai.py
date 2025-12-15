@@ -306,6 +306,7 @@ class TestCreateProject:
             assert project_path.exists()
             assert (project_path / "README.md").exists()
             assert project_path.name == "test-project"
+            assert project_path.parent.name == "NotFinishedYet"
             
             # Check README content
             readme_content = (project_path / "README.md").read_text()
@@ -329,8 +330,8 @@ class TestCreateProject:
     @patch('subprocess.run')
     def test_existing_project(self, mock_run, temp_projects_dir):
         with patch('ai.PROJECTS_DIR', temp_projects_dir):
-            project_path = temp_projects_dir / "existing-project"
-            project_path.mkdir()
+            project_path = temp_projects_dir / "NotFinishedYet" / "existing-project"
+            project_path.mkdir(parents=True, exist_ok=True)
             
             mock_run.return_value = subprocess.CompletedProcess(
                 args=["git", "init"],

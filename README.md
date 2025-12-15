@@ -119,7 +119,7 @@ ai "make a project called blog"
 ```
 
 **What it does automatically:**
-- Creates the folder (in the right place)
+- Creates the folder in `~/Desktop/Projects/NotFinishedYet/`
 - Initializes git (because you always forget)
 - Creates a README (with the project name, because you're lazy)
 - Opens it in Cursor (so you can start coding immediately)

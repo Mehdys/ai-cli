@@ -16,6 +16,9 @@ app = typer.Typer()
 # Base projects directory - uses absolute path so it works from any directory
 PROJECTS_DIR = Path.home() / "Desktop" / "Projects"
 
+# Default category for newly created projects
+CREATE_CATEGORY = "NotFinishedYet"
+
 # Stopwords to filter out from queries
 STOPWORDS = {
     "open", "the", "project", "about", "on", "cursor", "a", "an", "and", "or",
@@ -245,10 +248,19 @@ def open_in_cursor(path: Path) -> bool:
         return False
 
 
-def create_project(project_name: str) -> Path:
+def create_project(project_name: str, base_dir: Optional[Path] = None) -> Path:
     """Create a new project: folder, git init, README."""
     try:
-        project_path = PROJECTS_DIR / project_name
+        target_base = base_dir or PROJECTS_DIR
+        project_root = target_base / CREATE_CATEGORY
+
+        # Ensure category directory exists
+        try:
+            project_root.mkdir(parents=True, exist_ok=True)
+        except (OSError, PermissionError) as e:
+            raise Exception(f"Failed to create category directory '{project_root}': {e}")
+
+        project_path = project_root / project_name
         
         # Create directory if it doesn't exist
         try:
@@ -332,14 +344,15 @@ def main(
                 typer.echo(f"   Command: {command}", err=True)
                 raise typer.Exit(1)
             
-            project_path = PROJECTS_DIR / project_name
+            project_root = PROJECTS_DIR / CREATE_CATEGORY
+            project_path = project_root / project_name
             
             if project_path.exists():
                 typer.echo(f"✅ Project '{project_name}' already exists. Opening...")
             else:
                 typer.echo(f"✅ Creating project '{project_name}'...")
                 try:
-                    project_path = create_project(project_name)
+                    project_path = create_project(project_name, base_dir=PROJECTS_DIR)
                     typer.echo(f"✅ Project created at {project_path}")
                 except Exception as e:
                     typer.echo(f"❌ Failed to create project: {e}", err=True)

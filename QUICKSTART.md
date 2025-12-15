@@ -35,7 +35,7 @@ ai "start new project web-app"
 ### How It Works
 
 - **Opening projects**: Uses fuzzy matching to find projects in `~/Desktop/Projects`
-- **Creating projects**: Creates folder, initializes git, creates README, opens in Cursor
+- **Creating projects**: Creates folder under `~/Desktop/Projects/NotFinishedYet/`, initializes git, creates README, opens in Cursor
 - **Natural language**: Understands various phrasings like "create", "start", "make", "open"
 
 ### Examples
@@ -65,5 +65,6 @@ ai "create a project called existing-project"  # Opens instead of creating
 - Check that `cursor` command works: `which cursor`
 
 **Projects location:**
-- All projects are created/opened from `~/Desktop/Projects`
+- Opens projects from `~/Desktop/Projects` (all categories)
+- New projects are created in `~/Desktop/Projects/NotFinishedYet/`
 
